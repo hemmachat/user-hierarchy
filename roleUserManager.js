@@ -2,12 +2,26 @@ const Role = require('./role');
 const User = require('./user');
 
 class RoleUserManager {
+    constructor () {
+        this.currentRoleId = 0;
+        this.rolesTree = [];
+    }
+
     setRoles(roles) {
-        this.roles = roles;
+        roles.forEach(role => {
+            this.rolesTree.push(new Role(role.Id, role.Name, role.Parent));
+
+            if(role.Parent !== 0) {
+                const parentRoles = this.rolesTree.filter(r => r.id === role.Parent);
+                parentRoles.forEach(p => {
+                    p.addChild(new Role(role.Id, role.Name, role.Parent));
+                });
+            }
+        });
     }
 
     getRoles() {
-        return this.roles;
+        return this.rolesTree;
     }
 
     setUsers(users) {
@@ -20,8 +34,10 @@ class RoleUserManager {
 
     getSubordinates(userId) {
         const roleId = this.getRoleId(userId);
-        const role = this.getRole(roleId);
-        return this.roles.filter(r => r.Parent === role.Id);
+        const role = this.rolesTree.find(r => r.id === roleId);
+        console.log('role.getChildren()', role.getChildren());
+        console.log('rolesTree', this.rolesTree);
+        return role.getChildren();
     }
 
     getRoleId(userId) {
@@ -29,7 +45,7 @@ class RoleUserManager {
     }
 
     getRole(roleId) {
-        return this.roles.find(role => role.Id === roleId);
+        return this.rolesTree.find(role => role.id === roleId);
     }
 }
 

@@ -86,7 +86,7 @@ describe('Role and User class', () => {
                 roles.push(role);
             });
 
-            assert.equal(5, roles.length);
+            assert.equal(roles.length, 5);
         });
     }),
 
@@ -97,7 +97,7 @@ describe('Role and User class', () => {
                 users.push(user);
             });
 
-            assert.equal(5, users.length);
+            assert.equal(users.length, 5);
         });
     })
 });
@@ -107,8 +107,9 @@ describe('RoleUserManager class', () => {
         it('should return valid role values', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
+            const actual = manager.getRoles();
 
-            assert.equal(initRoles, manager.getRoles());
+            assert.equal(actual[0].id, initRoles[0].Id);
         });
     }),
 
@@ -117,7 +118,7 @@ describe('RoleUserManager class', () => {
             const manager = new RoleUserManager();
             manager.setUsers(initUsers);
 
-            assert.equal(initUsers, manager.getUsers());
+            assert.equal(manager.getUsers(), initUsers);
         });
     }),
 
@@ -126,7 +127,7 @@ describe('RoleUserManager class', () => {
             const manager = new RoleUserManager();
             manager.setUsers(initUsers);
 
-            assert.equal(5, manager.getRoleId(5));
+            assert.equal(manager.getRoleId(5), 5);
         });
     }),
 
@@ -135,11 +136,11 @@ describe('RoleUserManager class', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
 
-            assert.equal(5, manager.getRole(5).Id);
-            assert.equal("Trainer", manager.getRole(5).Name);
-            assert.equal(3, manager.getRole(5).Parent);
+            assert.equal(manager.getRole(5).id, 5);
+            assert.equal(manager.getRole(5).name, "Trainer");
+            assert.equal(manager.getRole(5).parent, 3);
         });
-    }),
+    })
 
     describe('getSubordinates()', () => {
         it('should return 0 subordinates of user ID 5', () => {
@@ -147,7 +148,7 @@ describe('RoleUserManager class', () => {
             manager.setRoles(initRoles);
             manager.setUsers(initUsers);
 
-            assert.equal(0, manager.getSubordinates(5));
+            assert.equal(manager.getSubordinates(5), 0);
         }),
 
         it('should return 0 subordinates of user ID 2', () => {
@@ -155,7 +156,55 @@ describe('RoleUserManager class', () => {
             manager.setRoles(initRoles);
             manager.setUsers(initUsers);
 
-            assert.equal(0, manager.getSubordinates(2));
-        })
+            assert.equal(manager.getSubordinates(2), 0);
+        }),
+
+        it('should return all subordinates of user ID 3 who is a supervisor', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const expected = [ 
+                { 
+                    Id: 4, 
+                    Name: 'Employee', 
+                    Parent: 3 
+                },
+                { 
+                    Id: 5, 
+                    Name: 'Trainer', 
+                    Parent: 3 
+                }];
+            const actual = manager.getSubordinates(3);
+
+            assert.equal(actual[0].id, expected[0].Id);
+            assert.equal(actual[1].id, expected[1].Id);
+        }),
+
+        it('should return all subordinates of user ID 4 who is a manager', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const expected = [   
+                { 
+                    Id: 3, 
+                    Name: 'Supervisor', 
+                    Parent: 2
+                },
+                { 
+                    Id: 4, 
+                    Name: 'Employee', 
+                    Parent: 3 
+                },
+                { 
+                    Id: 5, 
+                    Name: 'Trainer', 
+                    Parent: 3 
+                }];
+            const actual = manager.getSubordinates(4);
+
+            assert.equal(actual[0].id, expected[0].Id);
+            // assert.equal(actual[1].id, expected[1].Id);
+            // assert.equal(actual[2].id, expected[2].Id);
+        })     
     })
 });
