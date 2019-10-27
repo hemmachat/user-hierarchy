@@ -1,4 +1,6 @@
-const bowling = require('../index');
+const Role = require('../role');
+const User = require('../user');
+const index = require('../index');
 const assert = require('assert');
 
 const roles = [
@@ -55,22 +57,24 @@ const users = [
         "Role": 5
     }];
 
-describe('calculate bowling score', () => {
-    describe('calculate score', () => {
-        it('should return 0 for gutter balls', () => {
-            const turns = [
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0 , 
-                0,0
-            ];
-            assert.equal(bowling.calculateScore(turns), 0);
+describe('Role and User class', () => {
+    describe('Role constructor', () => {
+        it('should return valid role initialised values', () => {
+            const role = new Role(1, "System Administrator", 0);
+
+            assert.equal(role.id, 1);
+            assert.equal(role.name, "System Administrator");
+            assert.equal(role.parent, 0);
+        });
+    }),
+
+    describe('User constructor', () => {
+        it('should return valid user initialised values', () => {
+            const user = new User(1, "Adam Admin", 1);
+
+            assert.equal(user.id, 1);
+            assert.equal(user.name, "Adam Admin");
+            assert.equal(user.role, 1);
         });
     })
 });
