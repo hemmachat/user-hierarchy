@@ -1,9 +1,10 @@
 const Role = require('../role');
 const User = require('../user');
+const RoleUserManager = require('../roleUserManager');
 const index = require('../index');
 const assert = require('assert');
 
-const roles = [
+const initRoles = [
     {
         "Id": 1,
         "Name": "System Administrator",
@@ -30,7 +31,7 @@ const roles = [
         "Parent": 3
     }];
 
-const users = [
+const initUsers = [
     {
         "Id": 1,
         "Name": "Adam Admin",
@@ -76,5 +77,47 @@ describe('Role and User class', () => {
             assert.equal(user.name, "Adam Admin");
             assert.equal(user.role, 1);
         });
+    }),
+
+    describe('Role init multiple items', () => {
+        it('should return a valid number of role items', () => {
+            let roles = [];
+            initRoles.forEach(role => {
+                roles.push(role);
+            });
+
+            assert.equal(5, roles.length);
+        });
+    }),
+
+    describe('User init multiple items', () => {
+        it('should return a valid number of user items', () => {
+            let users = [];
+            initUsers.forEach(user => {
+                users.push(user);
+            });
+
+            assert.equal(5, users.length);
+        });
     })
+});
+
+describe('RoleUserManager class', () => {
+    describe('setRoles()', () => {
+        it('should return valid role values', () => {
+            const roleUserManager = new RoleUserManager();
+            roleUserManager.setRoles(initRoles);
+
+            assert.equal(initRoles, roleUserManager.getRoles());
+        });
+    }),
+
+    describe('setUsers()', () => {
+        it('should return valid user values', () => {
+            const roleUserManager = new RoleUserManager();
+            roleUserManager.setUsers(initUsers);
+
+            assert.equal(initUsers, roleUserManager.getUsers());
+        });
+    }) 
 });
