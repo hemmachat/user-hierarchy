@@ -105,19 +105,57 @@ describe('Role and User class', () => {
 describe('RoleUserManager class', () => {
     describe('setRoles()', () => {
         it('should return valid role values', () => {
-            const roleUserManager = new RoleUserManager();
-            roleUserManager.setRoles(initRoles);
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
 
-            assert.equal(initRoles, roleUserManager.getRoles());
+            assert.equal(initRoles, manager.getRoles());
         });
     }),
 
     describe('setUsers()', () => {
         it('should return valid user values', () => {
-            const roleUserManager = new RoleUserManager();
-            roleUserManager.setUsers(initUsers);
+            const manager = new RoleUserManager();
+            manager.setUsers(initUsers);
 
-            assert.equal(initUsers, roleUserManager.getUsers());
+            assert.equal(initUsers, manager.getUsers());
         });
-    }) 
+    }),
+
+    describe('getRoleId()', () => {
+        it('should return valid role ID', () => {
+            const manager = new RoleUserManager();
+            manager.setUsers(initUsers);
+
+            assert.equal(5, manager.getRoleId(5));
+        });
+    }),
+
+    describe('getRole()', () => {
+        it('should return valid role detail', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+
+            assert.equal(5, manager.getRole(5).Id);
+            assert.equal("Trainer", manager.getRole(5).Name);
+            assert.equal(3, manager.getRole(5).Parent);
+        });
+    }),
+
+    describe('getSubordinates()', () => {
+        it('should return 0 subordinates of user ID 5', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+
+            assert.equal(0, manager.getSubordinates(5));
+        }),
+
+        it('should return 0 subordinates of user ID 2', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+
+            assert.equal(0, manager.getSubordinates(2));
+        })
+    })
 });
