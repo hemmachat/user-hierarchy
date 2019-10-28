@@ -3,14 +3,15 @@ const User = require('./user');
 
 class RoleUserManager {
     constructor () {
-        this.currentRoleId = 0;
         this.rolesTree = [];
+        this.children = [];
     }
 
     setRoles(roles) {
         roles.forEach(role => {
             this.rolesTree.push(new Role(role.Id, role.Name, role.Parent));
 
+            // if not root node
             if(role.Parent !== 0) {
                 const parentRoles = this.rolesTree.filter(r => r.id === role.Parent);
                 parentRoles.forEach(p => {
@@ -32,12 +33,19 @@ class RoleUserManager {
         return this.users;
     }
 
-    getSubordinates(userId) {
-        const roleId = this.getRoleId(userId);
+    getSubRoles(roleId) {
         const role = this.rolesTree.find(r => r.id === roleId);
-        console.log('role.getChildren()', role.getChildren());
-        console.log('rolesTree', this.rolesTree);
-        return role.getChildren();
+
+        if (role.hasChildren()) {
+            role.children.forEach(child => {
+                this.children.push(child);
+                this.getSubRoles(child.id);
+            });
+        }
+        else {
+            console.log('this.children', this.children);
+            return this.children;
+        }
     }
 
     getRoleId(userId) {

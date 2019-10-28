@@ -10,8 +10,8 @@ class Role {
         this.children.push(childId);
     }
 
-    getChildren() {
-        return this.children;
+    hasChildren() {
+        return this.children.length !== 0;
     }
 }
 
