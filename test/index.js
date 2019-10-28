@@ -174,12 +174,14 @@ describe('RoleUserManager class', () => {
                 }];
             const actual = manager.getSubRoles(3);
 
-            // console.log('actual', actual);
-            // assert.deepEqual(actual, expected);
             assert.equal(actual[0].id, expected[0].Id);
-            // assert.equal(actual[1].id, expected[1].Id);
-        })
-/*
+            assert.equal(actual[0].name, expected[0].Name);
+            assert.equal(actual[0].parent, expected[0].Parent);
+            assert.equal(actual[1].id, expected[1].Id);
+            assert.equal(actual[1].name, expected[1].Name);
+            assert.equal(actual[1].parent, expected[1].Parent);
+        }),
+
         it('should return all subrole of role ID 2 - manager', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
@@ -203,9 +205,55 @@ describe('RoleUserManager class', () => {
             const actual = manager.getSubRoles(2);
 
             assert.equal(actual[0].id, expected[0].Id);
-            // assert.equal(actual[1].id, expected[1].Id);
-            // assert.equal(actual[2].id, expected[2].Id);
-        })     
-*/        
+            assert.equal(actual[0].name, expected[0].Name);
+            assert.equal(actual[0].parent, expected[0].Parent);
+            assert.equal(actual[1].id, expected[1].Id);
+            assert.equal(actual[1].name, expected[1].Name);
+            assert.equal(actual[1].parent, expected[1].Parent);
+            assert.equal(actual[2].id, expected[2].Id);
+            assert.equal(actual[2].name, expected[2].Name);
+            assert.equal(actual[2].parent, expected[2].Parent);
+        }),
+
+        it('should return all subrole of role ID 1 - admin', () => {
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const expected = [   
+                {
+                    Id: 2,
+                    Name: 'Location Manager',
+                    Parent: 1
+                },                
+                { 
+                    Id: 3, 
+                    Name: 'Supervisor', 
+                    Parent: 2
+                },
+                { 
+                    Id: 4, 
+                    Name: 'Employee', 
+                    Parent: 3 
+                },
+                { 
+                    Id: 5, 
+                    Name: 'Trainer', 
+                    Parent: 3 
+                }];
+            const actual = manager.getSubRoles(1);
+
+            assert.equal(actual[0].id, expected[0].Id);
+            assert.equal(actual[0].name, expected[0].Name);
+            assert.equal(actual[0].parent, expected[0].Parent);
+            assert.equal(actual[1].id, expected[1].Id);
+            assert.equal(actual[1].name, expected[1].Name);
+            assert.equal(actual[1].parent, expected[1].Parent);
+            assert.equal(actual[2].id, expected[2].Id);
+            assert.equal(actual[2].name, expected[2].Name);
+            assert.equal(actual[2].parent, expected[2].Parent);
+            assert.equal(actual[3].id, expected[3].Id);
+            assert.equal(actual[3].name, expected[3].Name);
+            assert.equal(actual[3].parent, expected[3].Parent);
+        })          
     })
 });

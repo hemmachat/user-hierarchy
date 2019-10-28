@@ -41,9 +41,10 @@ class RoleUserManager {
                 this.children.push(child);
                 this.getSubRoles(child.id);
             });
+
+            return this.children;
         }
         else {
-            console.log('this.children', this.children);
             return this.children;
         }
     }
