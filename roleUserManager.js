@@ -41,12 +41,9 @@ class RoleUserManager {
                 this.children.push(child);
                 this.getSubRoles(child.id);
             });
+        }
 
-            return this.children;
-        }
-        else {
-            return this.children;
-        }
+        return this.children;
     }
 
     getRoleId(userId) {
