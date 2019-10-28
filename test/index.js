@@ -182,7 +182,7 @@ describe('RoleUserManager class', () => {
             assert.equal(actual[1].parent, expected[1].Parent);
         }),
 
-        it('should return all subrole of role ID 2 - manager', () => {
+        it('should return all subroles of role ID 2 - manager', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
             manager.setUsers(initUsers);
@@ -215,7 +215,7 @@ describe('RoleUserManager class', () => {
             assert.equal(actual[2].parent, expected[2].Parent);
         }),
 
-        it('should return all subrole of role ID 1 - admin', () => {
+        it('should return all subroles of role ID 1 - admin', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
             manager.setUsers(initUsers);
