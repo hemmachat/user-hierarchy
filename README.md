@@ -18,7 +18,12 @@ $ npm install
 ````
 $ npm run test
 ````
-
+1. Optional: for TDD, you will need to install ``nodemon`` globally to run the test while you code.
+````
+$ npm install -g nodemon
+$ npm run test-dev
+````
+   
 ### Some possibility of improvements
 - More test scenarios such as multiple child nodes, empty nodes, invalid nodes, etc.
 - Input validation
