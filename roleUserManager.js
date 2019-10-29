@@ -11,7 +11,7 @@ class RoleUserManager {
         roles.forEach(role => {
             this._rolesTree.push(new Role(role.Id, role.Name, role.Parent));
 
-            // if not root node, we build the tree
+            // if not root node, we build the entire tree
             if(role.Parent !== PARENT_ROOT_NODE_ID) {
                 const parentRoles = this._rolesTree.filter(
                     r => r.id === role.Parent);
@@ -44,6 +44,7 @@ class RoleUserManager {
     getSubRoles(roleId) {
         const role = this._rolesTree.find(r => r.id === roleId);
 
+        // if the role has child or children, do the recursive way of getting the child role
         if (role.hasChildren()) {
             role.children.forEach(child => {
                 this._children.push(child);
@@ -59,6 +60,7 @@ class RoleUserManager {
         const subRoles = this.getSubRoles(roleId);
         let subs = [];
         
+        // get all subordinates by checking all users and roles
         this._users.forEach(u => {
             subRoles.forEach(r => {
                 if (r.id === u.Role) {
