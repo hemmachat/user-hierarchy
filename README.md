@@ -5,6 +5,7 @@
 - I create a class ``Role`` to store the relationship of the roles using ``children`` property as it more human understandable and easier to fetch the child nodes, instead of using ``parent`` property.
 - I use TDD to write simple test and simple code first. Then build them up together overtime. So, there might be some simple test scenarios that you might think not needed e.g. testing the constructor.
 - I create a class ``RoleUserManager`` to manage the role and user which might break the rule of single responsibility. But for our scenario which we have a tight relationship between roles and users, I think it is reasonable to have a single class.
+- I use the same property name as a capitalised word e.g. ``role.Id`` for convention as same as the JSON data to make less confusion which might different from the normal JavaScript naming convention.
   
 You need to have Node.js and NPM installed on your machine. If not, please download and install it from ``www.nodejs.org``
 

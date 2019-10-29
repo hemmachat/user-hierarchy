@@ -6,19 +6,19 @@ class Role {
         this._children = [];
     }
 
-    get id() {
+    get Id() {
         return this._id;
     }
 
-    get name() {
+    get Name() {
         return this._name;
     }
 
-    get parent() {
+    get Parent() {
         return this._parent;
     }
 
-    get children() {
+    get Children() {
         return this._children;
     }
     

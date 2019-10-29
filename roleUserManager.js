@@ -24,7 +24,7 @@ class RoleUserManager {
     }
 
     getRole(roleId) {
-        return this._rolesTree.find(role => role.id === roleId);
+        return this._rolesTree.find(role => role.Id === roleId);
     }
 
     setRoles(roles) {
@@ -34,21 +34,21 @@ class RoleUserManager {
             // if not root node, we build the entire tree
             if(role.Parent !== PARENT_ROOT_NODE_ID) {
                 const parentRoles = this._rolesTree.filter(
-                    r => r.id === role.Parent);
+                    r => r.Id === role.Parent);
                 parentRoles.forEach(p => 
                     p.addChild(new Role(role.Id, role.Name, role.Parent)));
             }
         });
     }
-    
+
     getSubRoles(roleId) {
-        const role = this._rolesTree.find(r => r.id === roleId);
+        const role = this._rolesTree.find(r => r.Id === roleId);
 
         // if the role has child or children, do the recursive way of getting the child role
         if (role.hasChildren()) {
-            role.children.forEach(child => {
+            role.Children.forEach(child => {
                 this._children.push(child);
-                this.getSubRoles(child.id);
+                this.getSubRoles(child.Id);
             });
         }
 
@@ -63,7 +63,7 @@ class RoleUserManager {
         // get all subordinates by checking all users and roles
         this._users.forEach(u => {
             subRoles.forEach(r => {
-                if (r.id === u.Role) {
+                if (r.Id === u.Role) {
                     subs.push(u);
                 }
             })

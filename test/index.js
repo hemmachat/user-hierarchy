@@ -62,9 +62,9 @@ describe('Role class test scenarios', () => {
         it('should return valid role initialised values', () => {
             const role = new Role(1, "System Administrator", 0);
 
-            assert.equal(role._id, 1);
-            assert.equal(role._name, "System Administrator");
-            assert.equal(role._parent, 0);
+            assert.equal(role.Id, 1);
+            assert.equal(role.Name, "System Administrator");
+            assert.equal(role.Parent, 0);
         });
     }),
 
@@ -98,7 +98,7 @@ describe('RoleUserManager class test scenarios', () => {
             manager.setRoles(initRoles);
             const actual = manager.getRoles();
 
-            assert.equal(actual[0].id, initRoles[0].Id);
+            assert.equal(actual[0].Id, initRoles[0].Id);
         });
     }),
 
@@ -125,9 +125,9 @@ describe('RoleUserManager class test scenarios', () => {
             const manager = new RoleUserManager();
             manager.setRoles(initRoles);
 
-            assert.equal(manager.getRole(5).id, 5);
-            assert.equal(manager.getRole(5).name, "Trainer");
-            assert.equal(manager.getRole(5).parent, 3);
+            assert.equal(manager.getRole(5).Id, 5);
+            assert.equal(manager.getRole(5).Name, "Trainer");
+            assert.equal(manager.getRole(5).Parent, 3);
         });
     })
 
@@ -163,12 +163,12 @@ describe('RoleUserManager class test scenarios', () => {
             manager.setUsers(initUsers);
             const actual = manager.getSubRoles(3);
 
-            assert.equal(actual[0].id, expected[0].Id);
-            assert.equal(actual[0].name, expected[0].Name);
-            assert.equal(actual[0].parent, expected[0].Parent);
-            assert.equal(actual[1].id, expected[1].Id);
-            assert.equal(actual[1].name, expected[1].Name);
-            assert.equal(actual[1].parent, expected[1].Parent);
+            assert.equal(actual[0].Id, expected[0].Id);
+            assert.equal(actual[0].Name, expected[0].Name);
+            assert.equal(actual[0].Parent, expected[0].Parent);
+            assert.equal(actual[1].Id, expected[1].Id);
+            assert.equal(actual[1].Name, expected[1].Name);
+            assert.equal(actual[1].Parent, expected[1].Parent);
         }),
 
         it('should return all subroles of role ID 2 - manager', () => {
@@ -193,15 +193,15 @@ describe('RoleUserManager class test scenarios', () => {
             manager.setUsers(initUsers);
             const actual = manager.getSubRoles(2);
 
-            assert.equal(actual[0].id, expected[0].Id);
-            assert.equal(actual[0].name, expected[0].Name);
-            assert.equal(actual[0].parent, expected[0].Parent);
-            assert.equal(actual[1].id, expected[1].Id);
-            assert.equal(actual[1].name, expected[1].Name);
-            assert.equal(actual[1].parent, expected[1].Parent);
-            assert.equal(actual[2].id, expected[2].Id);
-            assert.equal(actual[2].name, expected[2].Name);
-            assert.equal(actual[2].parent, expected[2].Parent);
+            assert.equal(actual[0].Id, expected[0].Id);
+            assert.equal(actual[0].Name, expected[0].Name);
+            assert.equal(actual[0].Parent, expected[0].Parent);
+            assert.equal(actual[1].Id, expected[1].Id);
+            assert.equal(actual[1].Name, expected[1].Name);
+            assert.equal(actual[1].Parent, expected[1].Parent);
+            assert.equal(actual[2].Id, expected[2].Id);
+            assert.equal(actual[2].Name, expected[2].Name);
+            assert.equal(actual[2].Parent, expected[2].Parent);
         }),
 
         it('should return all subroles of role ID 1 - admin', () => {
@@ -231,18 +231,18 @@ describe('RoleUserManager class test scenarios', () => {
             manager.setUsers(initUsers);
             const actual = manager.getSubRoles(1);
 
-            assert.equal(actual[0].id, expected[0].Id);
-            assert.equal(actual[0].name, expected[0].Name);
-            assert.equal(actual[0].parent, expected[0].Parent);
-            assert.equal(actual[1].id, expected[1].Id);
-            assert.equal(actual[1].name, expected[1].Name);
-            assert.equal(actual[1].parent, expected[1].Parent);
-            assert.equal(actual[2].id, expected[2].Id);
-            assert.equal(actual[2].name, expected[2].Name);
-            assert.equal(actual[2].parent, expected[2].Parent);
-            assert.equal(actual[3].id, expected[3].Id);
-            assert.equal(actual[3].name, expected[3].Name);
-            assert.equal(actual[3].parent, expected[3].Parent);
+            assert.equal(actual[0].Id, expected[0].Id);
+            assert.equal(actual[0].Name, expected[0].Name);
+            assert.equal(actual[0].Parent, expected[0].Parent);
+            assert.equal(actual[1].Id, expected[1].Id);
+            assert.equal(actual[1].Name, expected[1].Name);
+            assert.equal(actual[1].Parent, expected[1].Parent);
+            assert.equal(actual[2].Id, expected[2].Id);
+            assert.equal(actual[2].Name, expected[2].Name);
+            assert.equal(actual[2].Parent, expected[2].Parent);
+            assert.equal(actual[3].Id, expected[3].Id);
+            assert.equal(actual[3].Name, expected[3].Name);
+            assert.equal(actual[3].Parent, expected[3].Parent);
         })          
     }),
 
