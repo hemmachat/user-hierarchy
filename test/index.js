@@ -1,5 +1,4 @@
 const Role = require('../role');
-const User = require('../user');
 const RoleUserManager = require('../roleUserManager');
 const index = require('../index');
 const assert = require('assert');
@@ -58,24 +57,14 @@ const initUsers = [
         "Role": 5
     }];
 
-describe('Role and User class', () => {
+describe('Role class test scenarios', () => {
     describe('Role constructor', () => {
         it('should return valid role initialised values', () => {
             const role = new Role(1, "System Administrator", 0);
 
-            assert.equal(role.id, 1);
-            assert.equal(role.name, "System Administrator");
-            assert.equal(role.parent, 0);
-        });
-    }),
-
-    describe('User constructor', () => {
-        it('should return valid user initialised values', () => {
-            const user = new User(1, "Adam Admin", 1);
-
-            assert.equal(user.id, 1);
-            assert.equal(user.name, "Adam Admin");
-            assert.equal(user.role, 1);
+            assert.equal(role._id, 1);
+            assert.equal(role._name, "System Administrator");
+            assert.equal(role._parent, 0);
         });
     }),
 
@@ -102,7 +91,7 @@ describe('Role and User class', () => {
     })
 });
 
-describe('RoleUserManager class', () => {
+describe('RoleUserManager class test scenarios', () => {
     describe('setRoles()', () => {
         it('should return valid role values', () => {
             const manager = new RoleUserManager();
@@ -158,9 +147,6 @@ describe('RoleUserManager class', () => {
         }),
 
         it('should return all subroles of role ID 3 - supervisor', () => {
-            const manager = new RoleUserManager();
-            manager.setRoles(initRoles);
-            manager.setUsers(initUsers);
             const expected = [ 
                 { 
                     Id: 4, 
@@ -171,7 +157,10 @@ describe('RoleUserManager class', () => {
                     Id: 5, 
                     Name: 'Trainer', 
                     Parent: 3 
-                }];
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
             const actual = manager.getSubRoles(3);
 
             assert.equal(actual[0].id, expected[0].Id);
@@ -183,9 +172,6 @@ describe('RoleUserManager class', () => {
         }),
 
         it('should return all subroles of role ID 2 - manager', () => {
-            const manager = new RoleUserManager();
-            manager.setRoles(initRoles);
-            manager.setUsers(initUsers);
             const expected = [   
                 { 
                     Id: 3, 
@@ -201,7 +187,10 @@ describe('RoleUserManager class', () => {
                     Id: 5, 
                     Name: 'Trainer', 
                     Parent: 3 
-                }];
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
             const actual = manager.getSubRoles(2);
 
             assert.equal(actual[0].id, expected[0].Id);
@@ -216,9 +205,6 @@ describe('RoleUserManager class', () => {
         }),
 
         it('should return all subroles of role ID 1 - admin', () => {
-            const manager = new RoleUserManager();
-            manager.setRoles(initRoles);
-            manager.setUsers(initUsers);
             const expected = [   
                 {
                     Id: 2,
@@ -239,7 +225,10 @@ describe('RoleUserManager class', () => {
                     Id: 5, 
                     Name: 'Trainer', 
                     Parent: 3 
-                }];
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
             const actual = manager.getSubRoles(1);
 
             assert.equal(actual[0].id, expected[0].Id);
@@ -255,5 +244,102 @@ describe('RoleUserManager class', () => {
             assert.equal(actual[3].name, expected[3].Name);
             assert.equal(actual[3].parent, expected[3].Parent);
         })          
+    }),
+
+    describe('getSubOrdinates()', () => {
+        it('should return 0 subordinate of user ID 2 - employee', () => {         
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const actual = manager.getSubOrdinates(2);
+
+            assert.deepEqual(actual, []);
+        }),
+
+        it('should return 0 subordinate of user ID 5 - trainer', () => {         
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const actual = manager.getSubOrdinates(5);
+
+            assert.deepEqual(actual, []);
+        }),
+
+        it('should return subodinates of user ID 3 - supervisor', () => {
+            const expected = [
+                {
+                    "Id": 2,
+                    "Name": "Emily Employee",
+                    "Role": 4
+                },
+                {
+                    "Id": 5,
+                    "Name": "Steve Trainer",
+                    "Role": 5
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+            const actual = manager.getSubOrdinates(3);
+
+            assert.deepEqual(actual, expected);
+        }),
+
+        it('should return subodinates of user ID 4 - manager', () => {
+            const expected = [
+                {
+                    "Id": 2,
+                    "Name": "Emily Employee",
+                    "Role": 4
+                },
+                {
+                    "Id": 3,
+                    "Name": "Sam Supervisor",
+                    "Role": 3
+                },
+                {
+                    "Id": 5,
+                    "Name": "Steve Trainer",
+                    "Role": 5
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+
+            const actual = manager.getSubOrdinates(4);
+
+            assert.deepEqual(actual, expected);
+        }),
+
+        it('should return subodinates of user ID 1 - admin', () => {
+            const expected = [
+                {
+                    "Id": 2,
+                    "Name": "Emily Employee",
+                    "Role": 4
+                },
+                {
+                    "Id": 3,
+                    "Name": "Sam Supervisor",
+                    "Role": 3
+                },
+                {
+                    "Id": 4,
+                    "Name": "Mary Manager",
+                    "Role": 2
+                },
+                {
+                    "Id": 5,
+                    "Name": "Steve Trainer",
+                    "Role": 5
+                }];            
+            const manager = new RoleUserManager();
+            manager.setRoles(initRoles);
+            manager.setUsers(initUsers);
+
+            const actual = manager.getSubOrdinates(1);
+
+            assert.deepEqual(actual, expected);
+        })        
     })
 });

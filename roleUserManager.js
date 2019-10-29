@@ -1,57 +1,73 @@
 const Role = require('./role');
-const User = require('./user');
+const PARENT_ROOT_NODE_ID = 0;
 
 class RoleUserManager {
-    constructor () {
-        this.rolesTree = [];
-        this.children = [];
+    constructor() {
+        this._rolesTree = [];
+        this._children = [];
     }
 
     setRoles(roles) {
         roles.forEach(role => {
-            this.rolesTree.push(new Role(role.Id, role.Name, role.Parent));
+            this._rolesTree.push(new Role(role.Id, role.Name, role.Parent));
 
-            // if not root node
-            if(role.Parent !== 0) {
-                const parentRoles = this.rolesTree.filter(r => r.id === role.Parent);
-                parentRoles.forEach(p => {
-                    p.addChild(new Role(role.Id, role.Name, role.Parent));
-                });
+            // if not root node, we build the tree
+            if(role.Parent !== PARENT_ROOT_NODE_ID) {
+                const parentRoles = this._rolesTree.filter(
+                    r => r.id === role.Parent);
+                parentRoles.forEach(p => 
+                    p.addChild(new Role(role.Id, role.Name, role.Parent)));
             }
         });
     }
 
     getRoles() {
-        return this.rolesTree;
+        return this._rolesTree;
     }
 
     setUsers(users) {
-        this.users = users;
+        this._users = users;
     }
 
     getUsers() {
-        return this.users;
+        return this._users;
+    }
+
+    getRoleId(userId) {
+        return this._users.find(user => user.Id === userId).Role;
+    }
+
+    getRole(roleId) {
+        return this._rolesTree.find(role => role.id === roleId);
     }
 
     getSubRoles(roleId) {
-        const role = this.rolesTree.find(r => r.id === roleId);
+        const role = this._rolesTree.find(r => r.id === roleId);
 
         if (role.hasChildren()) {
             role.children.forEach(child => {
-                this.children.push(child);
+                this._children.push(child);
                 this.getSubRoles(child.id);
             });
         }
 
-        return this.children;
+        return this._children;
     }
 
-    getRoleId(userId) {
-        return this.users.find(user => user.Id === userId).Role;
-    }
+    getSubOrdinates(userId) {
+        const roleId = this.getRoleId(userId);
+        const subRoles = this.getSubRoles(roleId);
+        let subs = [];
+        
+        this._users.forEach(u => {
+            subRoles.forEach(r => {
+                if (r.id === u.Role) {
+                    subs.push(u);
+                }
+            })
+        });
 
-    getRole(roleId) {
-        return this.rolesTree.find(role => role.id === roleId);
+        return subs;
     }
 }
 
