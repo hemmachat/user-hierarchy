@@ -7,20 +7,6 @@ class RoleUserManager {
         this._children = [];
     }
 
-    setRoles(roles) {
-        roles.forEach(role => {
-            this._rolesTree.push(new Role(role.Id, role.Name, role.Parent));
-
-            // if not root node, we build the entire tree
-            if(role.Parent !== PARENT_ROOT_NODE_ID) {
-                const parentRoles = this._rolesTree.filter(
-                    r => r.id === role.Parent);
-                parentRoles.forEach(p => 
-                    p.addChild(new Role(role.Id, role.Name, role.Parent)));
-            }
-        });
-    }
-
     getRoles() {
         return this._rolesTree;
     }
@@ -41,6 +27,20 @@ class RoleUserManager {
         return this._rolesTree.find(role => role.id === roleId);
     }
 
+    setRoles(roles) {
+        roles.forEach(role => {
+            this._rolesTree.push(new Role(role.Id, role.Name, role.Parent));
+
+            // if not root node, we build the entire tree
+            if(role.Parent !== PARENT_ROOT_NODE_ID) {
+                const parentRoles = this._rolesTree.filter(
+                    r => r.id === role.Parent);
+                parentRoles.forEach(p => 
+                    p.addChild(new Role(role.Id, role.Name, role.Parent)));
+            }
+        });
+    }
+    
     getSubRoles(roleId) {
         const role = this._rolesTree.find(r => r.id === roleId);
 
